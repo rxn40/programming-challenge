@@ -1,8 +1,6 @@
 package de.exxcellent.challenge;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -21,12 +19,13 @@ public final class ReadFile {
     */
     public FileInformation readCsvFile(String name){
         
+        //name ggf um .csv erweitern
         if(!name.contains(".csv")){
             name = name+".csv";
         }
         String path = "C:/Users/GRY1UL/Desktop/Programmiren/programming-challenge/src/main/resources/de/exxcellent/challenge/"+name;
 
-        FileInformation infoFile = new FileInformation(); 
+        FileInformation infoFile = new FileInformation(); //return value
 
         try (Scanner scanner = new Scanner(new File(path));) {
             //header enthält dann alle keys der map von infoFile
@@ -46,7 +45,7 @@ public final class ReadFile {
                 
              }
 
-        }catch(Exception e){ 
+        }catch(Exception e){ //File wurde nicht gefunden
             throw new IllegalArgumentException("Something went wrong. File "+name + "can't be found!");
         }
          
