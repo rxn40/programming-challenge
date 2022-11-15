@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -133,16 +132,16 @@ class AppTest {
         fileInfo.addEntry("A", "1.1"); 
         fileInfo.addEntry("B", "1.0"); 
         fileInfo.addEntry("B", "1.0"); 
-        assertEquals("0.1", fileInfo.getMinDelta("A", "B"));
+        assertEquals(1, fileInfo.getMinDelta("A", "B"));
 
         //A hat mehr Einträge
         fileInfo.addEntry("A", "1.0"); 
-        assertEquals("0.1", fileInfo.getMinDelta("A", "B"));
+        assertEquals(1, fileInfo.getMinDelta("A", "B"));
 
         //B hat mehr Einträge
         fileInfo.addEntry("B", "1.0"); 
         fileInfo.addEntry("B", "2.0"); 
-        assertEquals("0.0", fileInfo.getMinDelta("A", "B"));
+        assertEquals(2, fileInfo.getMinDelta("A", "B"));
 
          /*
           * Fehler

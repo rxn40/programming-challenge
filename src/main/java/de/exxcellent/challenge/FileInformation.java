@@ -56,8 +56,8 @@ public class FileInformation {
      * Ruft die Methode stringToDouble auf
      * ERROR: Wenn key1 oder key2 nicht existieren 
      */
-    public String getMinDelta(String key1, String key2){
-        return null;
+    public int getMinDelta(String key1, String key2){
+        return 0;
     }
 
     /*
