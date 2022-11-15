@@ -66,7 +66,25 @@ public class FileInformation {
      *        Wenn entry nicht konvertierbar ist
      */
     public double stringToDouble(String value){
-        return 0.0;
+        if(value == null || value.trim().length() == 0){ //value = "", " " oder null
+            throw new IllegalArgumentException("key is empty or null");
+        }
+
+        if(value.contains(".")){
+            String[] valueSplit = value.trim().split("\\.");
+            if (valueSplit.length != 2){
+                throw new IllegalArgumentException("value cant be convertert"); // "X."
+            }else if(valueSplit.length == 2 && valueSplit[0].isEmpty()){ // " .X"
+                throw new IllegalArgumentException("value cant be convertert");
+            }
+        }
+        
+        try{
+            return Double.parseDouble(value);
+        }catch(NumberFormatException e)
+        {
+            throw new IllegalArgumentException("value cant be convertert");
+        }
     }
 
 }
