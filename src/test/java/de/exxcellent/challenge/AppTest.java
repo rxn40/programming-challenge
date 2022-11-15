@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.Assert;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,19 +45,25 @@ class AppTest {
     void readCsvFile(){
         //Datei kann gefunden werden und werden richtig aufbereiet
         ReadFile reader = new ReadFile();
-        List<String>  res1 = new ArrayList<>();
-        res1.add("Day,MxT,MnT");
-        res1.add("1,88,59");
-        Assert.assertEquals(res1, reader.readCsvFile("test.csv")); 
+        FileInformation fileInfo = new FileInformation();
+        fileInfo.addEntry("Day", "1");
+        fileInfo.addEntry("MxT", "88");
+        fileInfo.addEntry("MnT", "59");
+
+        Assert.assertEquals(reader.readCsvFile("test.csv").map.get("Day"), fileInfo.map.get("Day"));
+        Assert.assertEquals(reader.readCsvFile("test.csv").map.get("MxT"), fileInfo.map.get("MxT"));
+        Assert.assertEquals(reader.readCsvFile("test.csv").map.get("MnT"), fileInfo.map.get("MnT"));
 
         //name ohne .csv angegeben
-        Assert.assertEquals(res1, reader.readCsvFile("test")); 
+        Assert.assertEquals(reader.readCsvFile("test").map.get("Day"), fileInfo.map.get("Day"));
+        Assert.assertEquals(reader.readCsvFile("test").map.get("MxT"), fileInfo.map.get("MxT"));
+        Assert.assertEquals(reader.readCsvFile("test").map.get("MnT"), fileInfo.map.get("MnT"));
 
          /*
           * Fehler
           */
         //Datei kann nich gefunden werden
-        assertThrows(Exception.class, () -> {reader.readCsvFile("dontExist.csv");}, "file does not exist");
+        assertThrows(IllegalArgumentException.class, () -> {reader.readCsvFile("dontExist.csv");}, "Something went wrong. File dontExist.csv can't be found!");
     }
 
 
