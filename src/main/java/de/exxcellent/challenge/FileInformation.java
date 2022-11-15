@@ -2,9 +2,7 @@ package de.exxcellent.challenge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.List;
 
 /**
@@ -43,7 +41,7 @@ public class FileInformation {
             throw new IllegalArgumentException("entry is empty or null");
         }
 
-        // entry in key einfügen
+        // entry mit key einfügen
         List<String> entries = map.get(key);
         if(entries == null){ // key gibt es noch nicht
             entries = new ArrayList<>();
@@ -58,39 +56,58 @@ public class FileInformation {
      * Ruft die Methode stringToDouble auf
      * ERROR: Wenn key1 oder key2 nicht existieren 
      */
-    public int getMinDelta(String key1, String key2){
+    public String getMinDelta(String key1, String key2, String identifier){
         List<String> entries1 = map.get(key1);
         List<String> entries2 = map.get(key2);
 
-        //Fehlerbehandlung
+        //Fehlerbehandlung, falls key keine Einträge hinterlegt 
         if(entries1 == null){
             throw new IllegalArgumentException("key1 does not exist");
-        }
-        if(entries2 == null){
+        }else if(entries2 == null){
             throw new IllegalArgumentException("key2 does not exist");
+        }else if(map.get(identifier) == null){
+            throw new IllegalArgumentException("identifier does not exist");
         }
 
 
         //minimale laenge ermitteln
-        int size = entries1.size();
-        if(size > entries2.size()){
-            size = entries2.size();
-        }
+        int size = getMinSize(entries1, entries2);
 
         //index bestimmen
+        int index = getIndexMInDif(size, entries1, entries2);;
+
+        return map.get(identifier).get(index);
+    }
+
+
+
+    /*
+     * Methode, um minimale Differenz zu bestimmen
+     */
+    public int getIndexMInDif(int size, List<String> entries1, List<String> entries2){
         double res = Double.MAX_VALUE;
         int index = -1;
 
         for(int i = 0; i < size; i++){
-            double dif = stringToDouble(entries1.get(i))-stringToDouble(entries2.get(i));
-
+            double dif = Math.abs(stringToDouble(entries1.get(i))-stringToDouble(entries2.get(i)));
             if(dif < res){
-                dif = res;
+                res = dif;
                 index = i;
             }
         }
 
         return index;
+    }
+
+    /*
+     * Methode, welche die minimale Lange der Listen bestimmt
+     */
+    public int getMinSize(List<String> entries1, List<String> entries2){
+        int size = entries1.size();
+        if(size > entries2.size()){
+            size = entries2.size();
+        }
+        return size;
     }
 
     /*

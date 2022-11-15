@@ -8,11 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.Assert;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Example JUnit 5 test case.
  * @author Benjamin Schmid <benjamin.schmid@exxcellent.de>
@@ -135,26 +130,34 @@ class AppTest {
         FileInformation fileInfo = new FileInformation();
 
         //Funktionalität
-        fileInfo.addEntry("A", "0.0"); 
-        fileInfo.addEntry("A", "1.1"); 
+        fileInfo.addEntry("A", "a"); 
+        fileInfo.addEntry("A", "b"); 
+        fileInfo.addEntry("A", "c"); 
+        fileInfo.addEntry("A", "d"); 
         fileInfo.addEntry("B", "1.0"); 
-        fileInfo.addEntry("B", "1.0"); 
-        assertEquals(1, fileInfo.getMinDelta("A", "B"));
+        fileInfo.addEntry("B", "2.0"); 
+        fileInfo.addEntry("B", "3.0"); 
+        fileInfo.addEntry("C", "2.0"); 
+        fileInfo.addEntry("C", "2.1"); 
+        fileInfo.addEntry("C", "2.0"); 
+        assertEquals("b", fileInfo.getMinDelta("B", "C","A"));
 
-        //A hat mehr Einträge
-        fileInfo.addEntry("A", "1.0"); 
-        assertEquals(1, fileInfo.getMinDelta("A", "B"));
-
+        //C hat mehr Einträge
+        fileInfo.addEntry("C", "1.0"); 
+        assertEquals("b", fileInfo.getMinDelta("B", "C", "A"));
+ 
         //B hat mehr Einträge
         fileInfo.addEntry("B", "1.0"); 
         fileInfo.addEntry("B", "2.0"); 
-        assertEquals(2, fileInfo.getMinDelta("A", "B"));
+        assertEquals("d", fileInfo.getMinDelta("B", "C", "A"));
 
-         /*
-          * Fehler
-          */
-        assertThrows(IllegalArgumentException.class, () -> {  fileInfo.getMinDelta("C", "B");},"key1 does not exist");
-        assertThrows(IllegalArgumentException.class, () -> {  fileInfo.getMinDelta("A", "C");},"key2 does not exist");
+        /* 
+        Fehler
+          */ 
+        assertThrows(IllegalArgumentException.class, () -> {  fileInfo.getMinDelta("D", "B","A");},"key1 does not exist");
+        assertThrows(IllegalArgumentException.class, () -> {  fileInfo.getMinDelta("B", "D","A");},"key2 does not exist");
+        assertThrows(IllegalArgumentException.class, () -> {  fileInfo.getMinDelta("B", "C","D");},"identifier does not exist");
+
     }
 
 
