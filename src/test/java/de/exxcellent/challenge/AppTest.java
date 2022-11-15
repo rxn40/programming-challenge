@@ -65,26 +65,26 @@ class AppTest {
      * Test für die Klasse FileInformation.java
      */
     @Test
-    @DisplayName("FileInformation.java - addEntries")
-    void testAddEntries(){
+    @DisplayName("FileInformation.java - addEntry")
+    void testAddEntry(){
         FileInformation fileInfo = new FileInformation();
 
-        fileInfo.addEntries("A", "0.0"); // erster Eintrag "A"
-        fileInfo.addEntries("B", "1.0"); // zweiter Eintrag "B"
-        fileInfo.addEntries("A", "1.1"); // neuer Eintrag für "A"
+        fileInfo.addEntry("A", "0.0"); // erster Eintrag "A"
+        fileInfo.addEntry("B", "1.0"); // zweiter Eintrag "B"
+        fileInfo.addEntry("A", "1.1"); // neuer Eintrag für "A"
 
          /*
           * Fehler
           */
         //sollten alle IllegalArgumentException werfen - key fehlerhaft
-        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntries("", "1.1");},"key is empty or null");
-        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntries("  ", "1.1");},"key is empty or null");
-        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntries(null, "1.1");},"key is empty or null");
+        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntry("", "1.1");},"key is empty or null");
+        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntry("  ", "1.1");},"key is empty or null");
+        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntry(null, "1.1");},"key is empty or null");
 
         //sollten alle IllegalArgumentException werfen - entry fehlerhaft
-        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntries("A", "");},"entry is empty or null");
-        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntries("A", "  ");},"entry is empty or null");
-        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntries("A", null);},"entry is empty or null");
+        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntry("A", "");},"entry is empty or null");
+        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntry("A", "  ");},"entry is empty or null");
+        assertThrows(IllegalArgumentException.class, () -> {fileInfo.addEntry("A", null);},"entry is empty or null");
     }
 
 
@@ -129,19 +129,19 @@ class AppTest {
         FileInformation fileInfo = new FileInformation();
 
         //Funktionalität
-        fileInfo.addEntries("A", "0.0"); 
-        fileInfo.addEntries("A", "1.1"); 
-        fileInfo.addEntries("B", "1.0"); 
-        fileInfo.addEntries("B", "1.0"); 
+        fileInfo.addEntry("A", "0.0"); 
+        fileInfo.addEntry("A", "1.1"); 
+        fileInfo.addEntry("B", "1.0"); 
+        fileInfo.addEntry("B", "1.0"); 
         assertEquals("0.1", fileInfo.getMinDelta("A", "B"));
 
         //A hat mehr Einträge
-        fileInfo.addEntries("A", "1.0"); 
+        fileInfo.addEntry("A", "1.0"); 
         assertEquals("0.1", fileInfo.getMinDelta("A", "B"));
 
         //B hat mehr Einträge
-        fileInfo.addEntries("B", "1.0"); 
-        fileInfo.addEntries("B", "2.0"); 
+        fileInfo.addEntry("B", "1.0"); 
+        fileInfo.addEntry("B", "2.0"); 
         assertEquals("0.0", fileInfo.getMinDelta("A", "B"));
 
          /*

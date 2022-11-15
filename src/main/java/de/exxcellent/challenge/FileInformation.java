@@ -30,7 +30,7 @@ public class FileInformation {
      *      Wenn key leer/null ist - IlligelArgument
      *      Wenn entrie leer/null ist? - IlligelArgument
      */
-    public void addEntries(String key, String entry){
+    public void addEntry(String key, String entry){
         //key nicht valide
         if(key == null || key.trim().length() == 0){
             throw new IllegalArgumentException("key is empty or null");
