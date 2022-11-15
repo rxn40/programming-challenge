@@ -1,5 +1,6 @@
 package de.exxcellent.challenge;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -30,6 +31,23 @@ public class FileInformation {
      *      Wenn entrie leer/null ist? - IlligelArgument
      */
     public void addEntries(String key, String entry){
+        //key nicht valide
+        if(key == null || key.trim().length() == 0){
+            throw new IllegalArgumentException("key is empty or null");
+        }
+
+        //entry nicht valide
+        if(entry == null || entry.trim().length() == 0){
+            throw new IllegalArgumentException("entry is empty or null");
+        }
+
+        // entry in key einfügen
+        List<String> entries = map.get(key);
+        if(entries == null){ // key gibt es noch nicht
+            entries = new ArrayList<>();
+        }
+        entries.add(entry);
+        map.put(key, entries); // Eintrag aktuallisieren/anlegen
     }
 
 
