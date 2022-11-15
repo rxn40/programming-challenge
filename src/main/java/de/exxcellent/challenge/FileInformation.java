@@ -57,7 +57,38 @@ public class FileInformation {
      * ERROR: Wenn key1 oder key2 nicht existieren 
      */
     public int getMinDelta(String key1, String key2){
-        return 0;
+        List<String> entries1 = map.get(key1);
+        List<String> entries2 = map.get(key2);
+
+        //Fehlerbehandlung
+        if(entries1 == null){
+            throw new IllegalArgumentException("key1 does not exist");
+        }
+        if(entries2 == null){
+            throw new IllegalArgumentException("key2 does not exist");
+        }
+
+
+        //minimale laenge ermitteln
+        int size = entries1.size();
+        if(size > entries2.size()){
+            size = entries2.size();
+        }
+
+        //index bestimmen
+        double res = Double.MAX_VALUE;
+        int index = -1;
+
+        for(int i = 0; i < size; i++){
+            double dif = stringToDouble(entries1.get(i))-stringToDouble(entries2.get(i));
+
+            if(dif < res){
+                dif = res;
+                index = i;
+            }
+        }
+
+        return index;
     }
 
     /*
